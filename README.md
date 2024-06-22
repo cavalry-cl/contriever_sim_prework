@@ -1,4 +1,4 @@
-建立文件夹corpus/gpt2-train, knns/gpt2-train
+建立文件夹corpus/gpt2-train/tokenized, corpus/gpt2-train/embedded, knns/gpt2-train
 
 
 文本(wiki.train.txt)存在corpus中
