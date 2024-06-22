@@ -13,7 +13,7 @@ python build_segments.py \
 
 python retokenize_and_truncate.py \
     --input-dir corpus/gpt2-train/gpt2-train.segments.json \
-    --vocab-dir model/tokenizer/models--facebook--contriever-msmarco/snapshots/abe8c1493371369031bcb1e02acb754cf4e162fa \
+    --vocab-dir facebook/contriever-msmarco \
     --segment-length 512 \
     --output-dir corpus/retokenized-train
 

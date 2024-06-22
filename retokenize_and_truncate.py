@@ -31,9 +31,6 @@ def retokenize_and_truncate(tokenizer, segment_len, input_dir, output_dir):
                 offset += cur_len
                 if offset == segment_len:
                     break
-                # print(ids)
-                # print(len(ids))
-            # print(line_id)
             mmap_builder.add_item(line_id)
 
     mmap_builder.finalize(index_file)

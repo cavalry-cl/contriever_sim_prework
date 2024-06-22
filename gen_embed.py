@@ -9,9 +9,6 @@ from fairseq.data.indexed_dataset import MMapIndexedDatasetBuilder
 import numpy as np
 from tqdm import *
 
-# tokenizer = AutoTokenizer.from_pretrained('facebook/contriever-msmarco')
-tokenizer = AutoTokenizer.from_pretrained('model/tokenizer/models--facebook--contriever-msmarco/snapshots/abe8c1493371369031bcb1e02acb754cf4e162fa')
-
 PAD = 0
 if torch.cuda.is_available():
 	device = torch.device("cuda")
@@ -41,9 +38,6 @@ def embed_batch(inputs, model):
 
 def generate_embeddings(data_path, embed_dir, model_dir, batch_size):
     embed_dim = 768
-    if model_dir == 'facebook/contriever-msmarco':
-        embed_dim = 768
-
     model = AutoModel.from_pretrained(model_dir)
     model.eval()
     if torch.cuda.is_available():
@@ -69,9 +63,6 @@ def generate_embeddings(data_path, embed_dir, model_dir, batch_size):
 
     for (seg_id, seg) in tqdm(enumerate(dataset)):
         seg = seg.clone()
-        if(seg_id < 210000):
-            offset+=1
-            continue
         for idx in range(dim):
             if seg[idx] < 0:
                 seg[idx] = -seg[idx]
@@ -87,7 +78,6 @@ def generate_embeddings(data_path, embed_dir, model_dir, batch_size):
     if cur_seg.shape[0] > 0:
         embed_result = embed_batch(cur_seg, model).cpu().detach().numpy()
         embedded_batch[offset:] = embed_result
-    np.save(embed_dir+f'_last_batch_embed.npy',embedded_batch[210000:,:])
     print(embed_dim, dim)
     np.save(seg_embed_path, embedded_batch)
     print('Embedding done!')

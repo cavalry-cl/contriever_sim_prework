@@ -86,7 +86,6 @@ def sort(k, batch_size, embed_path, knn_path, sort_path):
     deleted = [0 for _ in range(cluster_cnt)]
     merged_clusters_num = 0
     unmatched = []
-    # for cluster, cluster_docs in tqdm(enumerate(clusters.copy())):
     for cluster in trange(cluster_cnt):
         cluster_docs = clusters[cluster]
         if len(cluster_docs) < min_cluster_size:

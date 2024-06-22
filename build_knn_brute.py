@@ -11,12 +11,9 @@ else:
 print(device)
 
 def build_knns(k, batch_size, embed_path, knn_path):
-    path = '/public/home/tengzhh2022/myattempt/corpus/valid/embedded/valid_embed.npy'
-
     dataset = np.load(embed_path)
     data_shape = dataset.shape
     k = min(k, data_shape[0])
-    # batch_size = 1000
     dataset_size = data_shape[0]
 
     for start_id in tqdm(range(0,dataset_size, batch_size)):
