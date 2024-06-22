@@ -14,6 +14,7 @@ def build_knns(k, batch_size, embed_path, knn_path):
     dataset = np.load(embed_path)
     data_shape = dataset.shape
     k = min(k, data_shape[0])
+    # batch_size = 1000
     dataset_size = data_shape[0]
 
     for start_id in tqdm(range(0,dataset_size, batch_size)):
@@ -37,9 +38,9 @@ import argparse
 if __name__ == '__main__':
     cmd = argparse.ArgumentParser('Preprocessing-embed_building arguments')
     cmd.add_argument('--k', type=int, default=1024)
-    cmd.add_argument('--batch-size', type=int, default=1000)
+    cmd.add_argument('--knn-batch-size', type=int, default=1000)
     cmd.add_argument('--embed-path', type=str)
     cmd.add_argument('--knn-path', type=str)
     args = cmd.parse_args(sys.argv[1:])
 
-    build_knns(args.k, args.batch_size, args.embed_path, args.knn_path)
+    build_knns(args.k, args.knn_batch_size, args.embed_path, args.knn_path)

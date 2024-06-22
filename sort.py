@@ -16,7 +16,7 @@ def get_knn(doc_id, batch_size, knn_path):
     knns = np.load(knn_path + f'batch{batch_id}.npy')
     return knns[doc_id % batch_size]
 
-def sort(k, batch_size, embed_path, knn_path, sort_path):
+def sort(start, k, batch_size, embed_path, knn_path, sort_path):
 
     embed = np.load(embed_path)
     dataset_size = embed.shape[0]
@@ -30,8 +30,8 @@ def sort(k, batch_size, embed_path, knn_path, sort_path):
     min_cluster_size = k
 
     # cur_doc = unseen_docs.pop()
-    unseen_docs.remove(15000)
-    cur_doc = 15000
+    unseen_docs.remove(start)
+    cur_doc = start
 
     clusters[cluster_cnt].append(cur_doc)
     cluster_size[cluster_cnt] += 1
@@ -86,6 +86,7 @@ def sort(k, batch_size, embed_path, knn_path, sort_path):
     deleted = [0 for _ in range(cluster_cnt)]
     merged_clusters_num = 0
     unmatched = []
+    # for cluster, cluster_docs in tqdm(enumerate(clusters.copy())):
     for cluster in trange(cluster_cnt):
         cluster_docs = clusters[cluster]
         if len(cluster_docs) < min_cluster_size:
@@ -134,10 +135,11 @@ import argparse
 if __name__ == '__main__':
     cmd = argparse.ArgumentParser('Preprocessing-embed_building arguments')
     cmd.add_argument('--k', type=int, default=1024)
-    cmd.add_argument('--batch-size', type=int, default=1000)
+    cmd.add_argument('--knn-batch-size', type=int, default=1000)
+    cmd.add_argument('--start', type=int, default=0)
     cmd.add_argument('--embed-path', type=str)
     cmd.add_argument('--knn-path', type=str)
     cmd.add_argument('--sort-path', type=str)
     args = cmd.parse_args(sys.argv[1:])
 
-    sort(args.k, args.batch_size, args.embed_path, args.knn_path, args.sort_path)
+    sort(args.start, args.k, args.knn_batch_size, args.embed_path, args.knn_path, args.sort_path)
