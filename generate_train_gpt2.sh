@@ -19,6 +19,7 @@ python retokenize_and_truncate.py \
 
 python gen_embed.py \
     --data-path corpus/retokenized-train \
+        --model-dir facebook/contriever-msmarco \
     --embed-dir corpus/gpt2-train/embedded/train 
 
 python build_knn_brute.py \
